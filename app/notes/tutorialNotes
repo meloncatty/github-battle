@@ -1,0 +1,127 @@
+When using Stateless Functional Components you don't need to require React (FALSE)
+
+The correct syntax for adding a way to change routes is:
+   <Link to='/nextPath' />
+
+The way to add initial state to your component is with getInitialState (TRUE)
+
+React Router leverages context in order to be able to get the routers properties into child components (TRUE)
+
+The way in which you route to a new path inside of a function is via this.context.router.routeTo({}) (FALSE)
+
+Recap: the Render method in a React component needs to be a pure function. That means it
+needs to be stateless, it needs to not make any Ajax requests, etc. It should just receive
+state and props and then render a UI.
+So where should these things go? Lifecycle methods are special methods each component
+can have that allow us to hook into the views when specific conditions happen
+(i.e. when the component first renders or when the component gets updated with new data, etc.)
+
+There are two categories of React's Life Cycle Methods:
+  1)When a component gets mounted to the DOM and unmounted
+  2)When a component receives new data
+
+Mounting/Unmounting
+
+Mounting: when the component is initialized and added to the DOM
+Unmounting: when the component is removed rom the DOM
+These methods will only be invoked once during the life of the component
+
+Problems to be solved with mounting/unmounting:
+  Establish some default props in our component
+  Set some initial state in our component
+  Make and Ajax request to fetch some data needed for this component
+  Set up any listeners (i.e. Websockets or Firebase)
+  Remove any listeners you initially set up (when unmounted)
+
+Establish some default props in our component:
+If we want to make is so that even if the consumer of our component doesn't
+pass in a certain prop, that prop still has a default value. We can do that
+with the getDefaultProps method:
+
+  var Loading = React.createClass({
+    getDefaultProps: function () {
+      return {
+        text: 'Loading'
+      }
+    },
+    render: function () {
+      ...
+    }
+})
+So if we had a Loading component that took in a loading text, we could make sure
+that if a text attribute isn't provided to the component, this.props.text
+will by default be 'Loading'
+
+Set some initial state in our component
+Sometimes you'll want your component to manage some piece of state. In order to
+do that you'll need to set some initial state of your component when your
+component is first added to the DOM. To do this you can use getInitialState:
+
+var Login = React.createClass({
+  getInitialState: function () {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  render: function () {
+    ...
+  }
+})
+
+To update this state, you can call this.setState passing in a new object which
+overwrites one or both of the email and password properties
+
+Make an Ajax request to fetch some data needed for this component
+
+This is a very common case. You can get some data that it's going to get from
+an Ajax request. You can do this utilizing componentDidMount. This will get
+called right after the component is mounted to the DOM:
+var FriendsList = React.createClass({
+  componentDidMount: function () {
+    return Axios.get(this.props.url).then(this.props.callback)
+  },
+  render: function () {
+    ...
+  }
+})
+
+Set up any listeners
+
+You can also use componentDidMount here as well:
+var FriendsList = React.createClass({
+  componentDidMount: function () {
+    ref.on('value', function (snapshot) {
+      this.setState({
+        friends: snapshot.val()
+      })
+    })
+  },
+  render: function () {
+    ...
+  }
+})
+Now that we've set up that listener, we want to be sure to remove it when the
+component is removed from the DOM so we don't have memory leaks.
+
+Remove any listeners you initially set up (when unmounted)
+That's where componentWillUnmount comes into play:
+var FriendsList = React.createClass({
+  componentWillUnmount: function () {
+    ref.off()
+  },
+  render: function () {
+    ...
+  }
+})
+
+There are some Life Cycle Events that are going to be called whenever the
+component receives new data from its parent component.
+The first is componentWillReceiveProps. When you want to execute some code
+whenever your component receives new props, componentWillReceiveProps does
+exactly this.
+The second and more advanced case is shouldComponentUpdate. React knows about
+not re-rendering unless something changed. You can make it even more intelligent
+by implementing shouldComponentUpdate. This will return a boolean, and if that
+boolean is true, that component will re-render. If it's false, that component
+(and naturally all child components), won't re-render.
