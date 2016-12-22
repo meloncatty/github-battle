@@ -5,7 +5,7 @@ const Route = ReactRouter.Route
 const hashHistory = ReactRouter.hashHistory
 const IndexRoute = ReactRouter.IndexRoute
 const Main = require('../components/Main')
-const Home = require("../components/Home")
+const Home = require('../components/Home')
 const PromptContainer = require('../containers/PromptContainer')
 const ConfirmBattleContainer = require('../containers/ConfirmBattleContainer')
 
