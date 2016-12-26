@@ -29,7 +29,17 @@ function ConfirmBattle (props) {
             <button type='button' className='btn btn-lg btn-success' onClick={props.onInitiateBattle}>Initiate Battle!</button>
           </div>
           <div className='col-sm-12' style={styles.space}>
+<<<<<<< HEAD
             
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+            
+>>>>>>> 57e940edfb8bb4b54033d1ee254c3dea73d725dd
+>>>>>>> c609dc93c4fd1bafe6f3e9ba741ed2fb78ae7fb5
+>>>>>>> c64bb04c41762bf026f077b85e9da98620305c1c
           </div>
         </div>
       </div>
