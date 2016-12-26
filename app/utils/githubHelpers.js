@@ -12,9 +12,9 @@ function getRepos (username) {
   return axios.get('https://api.github.com/users/' + username + '/repos' + param + '&per_page=100')
 }
 
-function getTotalStars (stars) {
-  return repos.data.reduce(function (p, c){
-    return p + c.stargazers_count
+function getTotalStars (repos) {
+  return repos.data.reduce(function (prev, current){
+    return prev + current.stargazers_count
   }, 0)
 }
 
@@ -34,6 +34,7 @@ function calculateScores (players) {
     players[0].followers * 3 + players[0].totalStars,
     players[1].followers * 3 + players[1].totalStars
   ]
+  console.log(calculateScores)
 }
 
 const helpers = {
