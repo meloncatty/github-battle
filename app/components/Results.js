@@ -5,6 +5,7 @@ const UserDetailsWrapper = require('./UserDetailsWrapper')
 const UserDetails = require('./UserDetails')
 const Link = require('react-router').Link
 const MainContainer = require('./MainContainer')
+const Loading = require('./Loading')
 
 
 function StartOver () {
@@ -20,7 +21,7 @@ function StartOver () {
 function Results (props) {
   if(props.isLoading === true) {
     return (
-      <p>LOADING</p>
+      <Loading text='One Moment' speed={100}/>
     )
   }
   if(props.scores[0] === props.scores[1]){
